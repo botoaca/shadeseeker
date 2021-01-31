@@ -1,0 +1,189 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/AmmoBar.cs" type="Script" id=1]
+[ext_resource path="res://Animations/ammo.reload.tres" type="Animation" id=2]
+[ext_resource path="res://Animations/ammo.unload.tres" type="Animation" id=3]
+[ext_resource path="res://Fonts/JAi_____.TTF" type="DynamicFontData" id=4]
+[ext_resource path="res://Sprites/Wall.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Coin.png" type="Texture" id=6]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 1, 0.588235, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.0431373, 0.0431373, 0.0431373, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 1, 0.392157, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 18
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 4 )
+
+[node name="HUD" type="CanvasLayer"]
+follow_viewport_enable = true
+
+[node name="Crosshair" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -2.50003
+margin_top = -2.5
+margin_right = 2.50003
+margin_bottom = 2.5
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+anchor_left = 0.5
+anchor_top = 0.95
+anchor_right = 0.5
+anchor_bottom = 0.95
+margin_left = -150.0
+margin_top = -15.0
+margin_right = 150.0
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+value = 100.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AmmoBar" type="ProgressBar" parent="."]
+anchor_left = 0.5
+anchor_top = 0.92
+anchor_right = 0.5
+anchor_bottom = 0.92
+margin_left = -150.0
+margin_top = -5.0
+margin_right = 150.0
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 2 )
+value = 100.0
+percent_visible = false
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AmmoBar"]
+anims/ammo.reload = ExtResource( 2 )
+anims/ammo.unload = ExtResource( 3 )
+
+[node name="WallIndicator" type="Control" parent="."]
+anchor_left = 0.697568
+anchor_top = 0.933646
+anchor_right = 0.697568
+anchor_bottom = 0.933646
+margin_left = -14.3098
+margin_top = -20.1879
+margin_right = 25.6902
+margin_bottom = 19.8121
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="WallIndicator"]
+position = Vector2( 12, 20 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="WallIndicator"]
+margin_left = 26.0
+margin_top = 4.0
+margin_right = 45.0
+margin_bottom = 36.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CoinIndicator" type="Control" parent="."]
+anchor_left = 0.697568
+anchor_top = 0.933646
+anchor_right = 0.697568
+anchor_bottom = 0.933646
+margin_left = 55.6904
+margin_top = -20.1876
+margin_right = 95.6901
+margin_bottom = 19.8124
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="CoinIndicator"]
+position = Vector2( 12, 20 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="CoinIndicator"]
+margin_left = 26.0
+margin_top = 4.0
+margin_right = 45.0
+margin_bottom = 36.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KillCount" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 51.0
+margin_right = 150.0
+margin_bottom = 54.0
+custom_fonts/font = SubResource( 5 )
+text = "kills: 0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WaveCount" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -149.0
+margin_right = -50.0
+margin_bottom = 54.0
+custom_fonts/font = SubResource( 5 )
+text = "wave: 0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemPrice" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -49.0
+margin_top = 20.0
+margin_right = 50.0
+margin_bottom = 36.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0.72549, 0, 1 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

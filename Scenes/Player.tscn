@@ -1,0 +1,84 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/Player.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Animations/player.walk.tres" type="Animation" id=3]
+[ext_resource path="res://Sound/footstep.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sprites/Pistol.png" type="Texture" id=5]
+[ext_resource path="res://Animations/player.shoot.tres" type="Animation" id=6]
+[ext_resource path="res://Scripts/DeployableWall.cs" type="Script" id=7]
+[ext_resource path="res://Sound/shoot.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sound/powerup.wav" type="AudioStream" id=9]
+
+[sub_resource type="CylinderShape" id=1]
+height = 3.0
+
+[sub_resource type="CylinderShape" id=2]
+radius = 1.1
+
+[node name="Player" type="KinematicBody"]
+collision_layer = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="HUD" parent="." instance=ExtResource( 2 )]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Holder" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )
+
+[node name="Camera" type="Camera" parent="Holder"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.133333, 0 )
+current = true
+fov = 90.0
+far = 500.0
+
+[node name="Pistol" type="Sprite3D" parent="Holder/Camera"]
+transform = Transform( -3.25841e-07, 0, -2, 0, 2, 0, 2, 0, -3.25841e-07, 0.9, -0.4, -0.9 )
+offset = Vector2( 8, 0 )
+texture = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Holder/Camera/Pistol"]
+anims/player.shoot = ExtResource( 6 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Holder/Camera/Pistol"]
+stream = ExtResource( 8 )
+volume_db = -20.0
+
+[node name="WallRaycast" type="RayCast" parent="Holder/Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -5 )
+script = ExtResource( 7 )
+
+[node name="ShootRaycast" type="RayCast" parent="Holder"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0, 0, 0 )
+enabled = true
+cast_to = Vector3( 100, 0, 0 )
+
+[node name="DamageArea" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="DamageArea"]
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/player.walk = ExtResource( 3 )
+
+[node name="Footsteps" type="AudioStreamPlayer3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1, 0 )
+stream = ExtResource( 4 )
+max_db = -20.0
+
+[node name="AmmoTimer" type="Timer" parent="."]
+
+[node name="Powerup" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -30.0
+
+[node name="AfterWallTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+[connection signal="timeout" from="AfterWallTimer" to="." method="OnAfterWallTimeout"]
